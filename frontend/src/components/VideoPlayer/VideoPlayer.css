@@ -1,0 +1,31 @@
+.container {
+	height: 90%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+.video {
+	height: 600px;
+	width: 900px;
+}
+
+.ad-overlay {
+	position: absolute;
+    bottom: 80px;
+	margin: 0;
+	padding: 0;
+	height: 50px;
+	width: 700px;
+	background-color: aqua;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* placeholder for now */
+.h2 {
+	font-size: 50px;
+}
