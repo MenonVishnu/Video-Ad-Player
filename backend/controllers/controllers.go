@@ -12,6 +12,7 @@ func GetAds(w http.ResponseWriter, r *http.Request) {
 	//Set Headers
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Allow-Control-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	//Take data from database
 	var advs []helpers.AdvData
@@ -29,6 +30,7 @@ func LogClick(w http.ResponseWriter, r *http.Request) {
 	//Set Headers
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Allow-Control-Allow-Methods", "POST")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	//Take the data from body
 	var clickData helpers.ClickData
