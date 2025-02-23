@@ -3,7 +3,7 @@ import Video from "../../Assets/video-1.mp4";
 import { useState, useRef, useEffect } from "react";
 
 function VideoPlayer(props) {
-	const [adv, setAdv] = useState(props.advData[0]);
+	const [adv, setAdv] = useState(null);
 	const [position, setPosition] = useState("img-0");
 	const videoRef = useRef(null); // Reference to the video element
 
@@ -43,7 +43,7 @@ function VideoPlayer(props) {
 				href={adv.target_url}
 				target="_blank"
 				rel="noreferrer">
-				<img src={adv.image_url} alt="" className={position} />
+				<img src={adv.image_url } alt="" className={position} />
 			</a>
 		</div>
 	);
