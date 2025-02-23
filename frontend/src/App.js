@@ -33,7 +33,7 @@ function App() {
 	return (
 		<div className="App">
 			<Header />
-			<VideoPlayer adsData={data} />
+			<VideoPlayer advData={data} />
 		</div>
 	);
 }
