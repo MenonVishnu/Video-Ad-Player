@@ -3,7 +3,7 @@ import Video from "../../Assets/video-1.mp4";
 import { useState, useRef, useEffect } from "react";
 
 function VideoPlayer(props) {
-	const [adv, setAdv] = useState(null);
+	const [adv, setAdv] = useState(props.advData[0]);
 	const [position, setPosition] = useState("img-0");
 	const videoRef = useRef(null); // Reference to the video element
 
@@ -12,6 +12,7 @@ function VideoPlayer(props) {
 		const advInterval = setInterval(() => {
 			//change the adv randmoly
 			const randIndex = Math.floor(Math.random() * props.advData.length);
+			console.log(randIndex);
 			setAdv(props.advData[randIndex]);
 
 			//change position of the element
@@ -22,10 +23,28 @@ function VideoPlayer(props) {
 		return () => clearInterval(advInterval);
 	}, []);
 
-	const handleAdvClick = () => {
+	const handleAdvClick = async () => {
 		if (videoRef.current) {
-			const timestamp = videoRef.current.currentTime;
-			console.log("Ad clicked at timestamp:", timestamp);
+			try {
+				const timestamp = videoRef.current.currentTime;
+
+				//sending click data
+				const response = await fetch("http://localhost:8080/api/v1/ads/click", {
+					method: "POST",
+					body: JSON.stringify({
+						ad_id: adv.AdID,
+						timestamp: new Date().getTime(),
+						ip: "",
+						VideoTimeStamp: timestamp,
+					}),
+				});
+
+				if (response.ok) {
+					console.log("Click data send");
+				}
+			} catch (error) {
+				console.log("Error sending click data: ", error);
+			}
 		}
 	};
 
@@ -33,7 +52,6 @@ function VideoPlayer(props) {
 		<div className="container">
 			<video ref={videoRef} className="video" controls>
 				<source src={Video} type="video/mp4" />
-				Your Browser does not support this video
 			</video>
 
 			<a
@@ -43,7 +61,7 @@ function VideoPlayer(props) {
 				href={adv.target_url}
 				target="_blank"
 				rel="noreferrer">
-				<img src={adv.image_url } alt="" className={position} />
+				<img src={adv.image_url} alt="" className={position} />
 			</a>
 		</div>
 	);
