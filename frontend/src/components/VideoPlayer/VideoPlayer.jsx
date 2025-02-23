@@ -3,19 +3,21 @@ import Video from "../../Assets/video-1.mp4";
 import { useState, useRef, useEffect } from "react";
 
 function VideoPlayer(props) {
-	const [ad, setAd] = useState(props.adsData[0]);
+	const [adv, setAdv] = useState(props.advData[0]);
 	const videoRef = useRef(null); // Reference to the video element
 
 	useEffect(() => {
-		const adInterval = setInterval(() => {
-			setAd(props.adsData[      Math.floor( (Math.random() * 100) % props.adsData.length    )]);
-		}, 10000); // Change ad every 10 seconds
 
-		return () => clearInterval(adInterval);
+        //Change Ad every 10 seconds
+		const advInterval = setInterval(() => {
+			setAdv(props.advData[      Math.floor( (Math.random() * 100) % props.advData.length    )]);
+		}, 10000); 
+
+
+		return () => clearInterval(advInterval);
 	}, []);
 
-	const handleAdClick = (event) => {
-		// event.preventDefault();
+	const handleAdvClick = () => {
 		if (videoRef.current) {
 			const timestamp = videoRef.current.currentTime;
 			console.log("Ad clicked at timestamp:", timestamp);
@@ -30,13 +32,13 @@ function VideoPlayer(props) {
 			</video>
 
 			<a
-				className="ad-overlay"
-				onClick={handleAdClick}
-				href={ad.target_url}
+				className="adv-overlay"
+				onClick={handleAdvClick}
+				href={adv.target_url}
 				target="_blank"
                 rel="noreferrer"
                 >
-				<img src={ad.image_url} alt="" />
+				<img src={adv.image_url} alt="" />
 			</a>
 		</div>
 	);
@@ -46,5 +48,6 @@ export default VideoPlayer;
 
 //next steps:
 /*
+    How to show ads random order for 10 sec / or loop them continueously
     how to change positions randomly
 */
