@@ -18,7 +18,7 @@ var DB *sql.DB
 func init() {
 	var err error
 
-	DB, err = sql.Open("sqlite3", filepath.Join("database", "test.db"))
+	DB, err = sql.Open("sqlite3", filepath.Join("data", "test.db"))
 	if err != nil {
 		log.Fatal("Error Connecting to Database: ", err)
 	}
@@ -27,7 +27,7 @@ func init() {
 	sqlStatement := `CREATE TABLE IF NOT EXISTS clickdata (clickid INTEGER PRIMARY KEY AUTOINCREMENT, adid INTEGER, timestamp TEXT, ip VARCHAR(20), videotimestamp DOUBLE);`
 
 	_, err = DB.Exec(sqlStatement)
-	
+
 	if err != nil {
 		log.Fatal("Error Creating clickdata Table: ", err)
 	}
@@ -117,7 +117,7 @@ func GetAllAdv() ([]helpers.AdvData, error) {
 		}
 		adv = append(adv, data)
 	}
-	log.Println("Successfully Retrieved Data.")
+	log.Println("Fetched Ads from Database.")
 	return adv, nil
 }
 
@@ -128,7 +128,6 @@ func AddClick(clickData helpers.ClickData) error {
 	if err != nil {
 		return err
 	}
-	log.Println(clickData)
-	log.Println("Successfully Added to Database.")
+	log.Println("Click Logged in Database.")
 	return nil
 }

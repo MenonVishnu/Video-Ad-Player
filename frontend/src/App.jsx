@@ -9,10 +9,9 @@ function App() {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				//todo
+				//API Call to /ads to fetch advertisment
 				var response = await fetch("http://localhost:8080/api/v1/ads");
 				response = await response.json();
-				console.log(await response.data);
 				setData(response.data);
 			} catch (error) {
 				console.log("API Connection failed!!", error);
@@ -25,7 +24,7 @@ function App() {
 		<div className="App">
 			<Header />
 			{/* conditional rendering, only shows video if advData is loaded */}
-			{data == null ? <h2>Loading</h2> : <VideoPlayer advData={data} /> }
+			{data == null ? <h2>Loading...</h2> : <VideoPlayer advData={data} />}
 		</div>
 	);
 }

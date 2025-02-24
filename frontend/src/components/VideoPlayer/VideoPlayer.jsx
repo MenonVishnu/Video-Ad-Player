@@ -12,12 +12,10 @@ function VideoPlayer(props) {
 		const advInterval = setInterval(() => {
 			//change the adv randmoly
 			const randIndex = Math.floor(Math.random() * props.advData.length);
-			console.log(randIndex);
 			setAdv(props.advData[randIndex]);
 
 			//change position of the element
-			const position = randIndex % 4;
-			setPosition("img-" + position);
+			setPosition("img-" + randIndex);
 		}, 10000);
 
 		return () => clearInterval(advInterval);
@@ -32,16 +30,12 @@ function VideoPlayer(props) {
 				const response = await fetch("http://localhost:8080/api/v1/ads/click", {
 					method: "POST",
 					body: JSON.stringify({
-						ad_id: adv.AdID,
-						timestamp: new Date().getTime(),
+						ad_id: adv.ad_id,
+						timestamp: String(new Date().getTime()),
 						ip: "",
-						VideoTimeStamp: timestamp,
+						video_timestamp: timestamp,
 					}),
 				});
-
-				if (response.ok) {
-					console.log("Click data send");
-				}
 			} catch (error) {
 				console.log("Error sending click data: ", error);
 			}
@@ -50,10 +44,12 @@ function VideoPlayer(props) {
 
 	return (
 		<div className="container">
+			{/* Video Player  */}
 			<video ref={videoRef} className="video" controls>
 				<source src={Video} type="video/mp4" />
 			</video>
 
+			{/* Ad Overlay  */}
 			<a
 				id="adv-container"
 				className="adv-overlay"
@@ -69,9 +65,3 @@ function VideoPlayer(props) {
 
 export default VideoPlayer;
 
-//next steps:
-/*
-	Integration with backend
-	Axios: connect to backend api and retrieve ads and send click data
-
-*/
