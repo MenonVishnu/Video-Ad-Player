@@ -24,12 +24,14 @@ func init() {
 	}
 
 	//creating log Table
-	sqlStatement := `CREATE TABLE IF NOT EXISTS clickdata (clickid INTEGER PRIMARY KEY AUTOINCREMENT, adid INTEGER, timestamp TEXT, ip VARCHAR(20), videotimestamp REAL);`
+	sqlStatement := `CREATE TABLE IF NOT EXISTS clickdata (clickid INTEGER PRIMARY KEY AUTOINCREMENT, adid INTEGER, timestamp TEXT, ip VARCHAR(20), videotimestamp DOUBLE);`
+
 	_, err = DB.Exec(sqlStatement)
+	
 	if err != nil {
 		log.Fatal("Error Creating clickdata Table: ", err)
 	}
-	log.Println("clickdata Table Created Successfully!!")
+	log.Println("clickdata Table Available")
 
 	//creating advertisement table
 	sqlStatement = `CREATE TABLE IF NOT EXISTS advertisement (adid INTEGER PRIMARY KEY, imageurl TEXT, targeturl TEXT);`
@@ -37,7 +39,7 @@ func init() {
 	if err != nil {
 		log.Fatal("Error Creating advertisement Table: ", err)
 	}
-	log.Println("advertisement Table Created Successfully!!")
+	log.Println("advertisement Table Available!!")
 
 	//to check if there is any data in advertisement table
 	var tempData helpers.AdvData
@@ -126,6 +128,7 @@ func AddClick(clickData helpers.ClickData) error {
 	if err != nil {
 		return err
 	}
+	log.Println(clickData)
 	log.Println("Successfully Added to Database.")
 	return nil
 }

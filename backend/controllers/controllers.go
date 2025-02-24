@@ -35,6 +35,9 @@ func LogClick(w http.ResponseWriter, r *http.Request) {
 	//Take the data from body
 	var clickData helpers.ClickData
 	_ = json.NewDecoder(r.Body).Decode(&clickData)
+	
+	//Collect IP from Request
+	clickData.IP = helpers.GetIP(r);
 
 	//Store it in sqlite
 	err := database.AddClick(clickData)
