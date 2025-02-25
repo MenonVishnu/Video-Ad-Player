@@ -9,7 +9,6 @@ services:
       - PORT=8080
     volumes:
       - backend-data:/app/data  # Persist database if needed
-      - ./backend/database:/app/database
     networks:
       - app-network
 

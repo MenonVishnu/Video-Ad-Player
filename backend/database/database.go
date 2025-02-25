@@ -59,21 +59,24 @@ func InsertDummyData(filename string) {
 	cwd, _ := os.Getwd()
 	file, err := os.Open(filepath.Join(cwd, "data", filename))
 	if err != nil {
-		log.Fatal("Could not find file: ", err)
+		log.Println("Could not find file: ", err)
+		return
 	}
 	defer file.Close()
 
 	// Read file content
 	bytes, err := io.ReadAll(file)
 	if err != nil {
-		log.Fatal("Error Reading JSON file: ", err)
+		log.Println("Error Reading JSON file: ", err)
+		return
 	}
 
 	// Parse JSON
 	var dummyData []helpers.AdvData
 	err = json.Unmarshal(bytes, &dummyData)
 	if err != nil {
-		log.Fatal("Error Parsing JSON data: ", err)
+		log.Println("Error Parsing JSON data: ", err)
+		return
 	}
 
 	// Check if there's data to insert
