@@ -18,18 +18,20 @@ var DB *sql.DB
 func init() {
 	var err error
 
-	DB, err = sql.Open("sqlite3", filepath.Join("database", "test.db"))
+	DB, err = sql.Open("sqlite3", filepath.Join("data", "video_ad_player.db"))
 	if err != nil {
 		log.Fatal("Error Connecting to Database: ", err)
 	}
 
 	//creating log Table
-	sqlStatement := `CREATE TABLE IF NOT EXISTS clickdata (clickid INTEGER PRIMARY KEY AUTOINCREMENT, adid INTEGER, timestamp TEXT, ip VARCHAR(20), videotimestamp REAL);`
+	sqlStatement := `CREATE TABLE IF NOT EXISTS clickdata (clickid INTEGER PRIMARY KEY AUTOINCREMENT, adid INTEGER, timestamp TEXT, ip VARCHAR(20), videotimestamp DOUBLE);`
+
 	_, err = DB.Exec(sqlStatement)
+
 	if err != nil {
 		log.Fatal("Error Creating clickdata Table: ", err)
 	}
-	log.Println("clickdata Table Created Successfully!!")
+	log.Println("clickdata Table Available")
 
 	//creating advertisement table
 	sqlStatement = `CREATE TABLE IF NOT EXISTS advertisement (adid INTEGER PRIMARY KEY, imageurl TEXT, targeturl TEXT);`
@@ -37,7 +39,7 @@ func init() {
 	if err != nil {
 		log.Fatal("Error Creating advertisement Table: ", err)
 	}
-	log.Println("advertisement Table Created Successfully!!")
+	log.Println("advertisement Table Available!!")
 
 	//to check if there is any data in advertisement table
 	var tempData helpers.AdvData
@@ -55,23 +57,26 @@ func init() {
 func InsertDummyData(filename string) {
 
 	cwd, _ := os.Getwd()
-	file, err := os.Open(filepath.Join(cwd, "database", filename))
+	file, err := os.Open(filepath.Join(cwd, "data", filename))
 	if err != nil {
-		log.Fatal("Could not find file: ", err)
+		log.Println("Could not find file: ", err)
+		return
 	}
 	defer file.Close()
 
 	// Read file content
 	bytes, err := io.ReadAll(file)
 	if err != nil {
-		log.Fatal("Error Reading JSON file: ", err)
+		log.Println("Error Reading JSON file: ", err)
+		return
 	}
 
 	// Parse JSON
 	var dummyData []helpers.AdvData
 	err = json.Unmarshal(bytes, &dummyData)
 	if err != nil {
-		log.Fatal("Error Parsing JSON data: ", err)
+		log.Println("Error Parsing JSON data: ", err)
+		return
 	}
 
 	// Check if there's data to insert
@@ -115,7 +120,7 @@ func GetAllAdv() ([]helpers.AdvData, error) {
 		}
 		adv = append(adv, data)
 	}
-	log.Println("Successfully Retrieved Data.")
+	log.Println("Fetched Ads from Database.")
 	return adv, nil
 }
 
@@ -126,6 +131,6 @@ func AddClick(clickData helpers.ClickData) error {
 	if err != nil {
 		return err
 	}
-	log.Println("Successfully Added to Database.")
+	log.Println("Click Logged in Database.")
 	return nil
 }

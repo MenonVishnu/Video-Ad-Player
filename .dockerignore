@@ -1,0 +1,12 @@
+#env files
+.env
+
+#node
+node_modules
+
+#git
+.git
+.gitignore
+
+#docker-compose
+docker-compose.yml

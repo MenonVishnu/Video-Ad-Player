@@ -1,9 +1,9 @@
 .container {
+	position: relative;
 	height: 90%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: relative;
 }
 
 .video {
@@ -13,16 +13,47 @@
 
 .adv-overlay {
 	position: absolute;
-    bottom: 80px;
 	margin: 0;
 	padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-img{
-    height: 70px;
-    width: 700px;
+/* Position Bottom */
+.img-0 {
+	position: absolute;
+	bottom: -240px;
+	height: 70px;
+	width: 700px;
 }
 
+/* Position Right  */
+.img-1 {
+	position: absolute;
+	top: -220px;
+	left: 350px;
+	height: 450px;
+	width: 90px;
+}
+
+/* Position Left */
+.img-2 {
+	position: absolute;
+	top: -220px;
+	left: -420px;
+	height: 450px;
+	width: 90px;
+}
+
+/* Position Top */
+.img-3 {
+	position: absolute;
+	top: -240px;
+	height: 70px;
+	width: 700px;
+}
+
+img {
+	border: 2px solid #fff;
+}

@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+    volumes:
+      - backend-data:/app/data  # Persist database if needed
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"  # Map React app to port 3000
+    environment:
+    - BACKEND_API=backend:8080
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:  # Shared network between frontend & backend
+    driver: bridge
+
+volumes:
+  backend-data:  
