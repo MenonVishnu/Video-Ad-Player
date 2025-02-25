@@ -9,8 +9,9 @@ function App() {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				//API Call to /ads to fetch advertisment
-				var response = await fetch("http://localhost:8080/api/v1/ads");
+				//fetch advertisment
+				const url = process.env.BACKEND_API || "localhost:8080";
+				var response = await fetch(`http://${url}/api/v1/ads`);
 				response = await response.json();
 				setData(response.data);
 			} catch (error) {

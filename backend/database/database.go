@@ -18,7 +18,7 @@ var DB *sql.DB
 func init() {
 	var err error
 
-	DB, err = sql.Open("sqlite3", filepath.Join("data", "test.db"))
+	DB, err = sql.Open("sqlite3", filepath.Join("data", "video_ad_player.db"))
 	if err != nil {
 		log.Fatal("Error Connecting to Database: ", err)
 	}
@@ -57,7 +57,7 @@ func init() {
 func InsertDummyData(filename string) {
 
 	cwd, _ := os.Getwd()
-	file, err := os.Open(filepath.Join(cwd, "database", filename))
+	file, err := os.Open(filepath.Join(cwd, "data", filename))
 	if err != nil {
 		log.Fatal("Could not find file: ", err)
 	}

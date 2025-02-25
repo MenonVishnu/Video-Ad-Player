@@ -27,7 +27,8 @@ function VideoPlayer(props) {
 				const timestamp = videoRef.current.currentTime;
 
 				//sending click data
-				const response = await fetch("http://localhost:8080/api/v1/ads/click", {
+				const url = process.env.BACKEND_API || "localhost:8080";
+				const response = await fetch(`http://${url}/api/v1/ads/click`, {
 					method: "POST",
 					body: JSON.stringify({
 						ad_id: adv.ad_id,
@@ -64,4 +65,3 @@ function VideoPlayer(props) {
 }
 
 export default VideoPlayer;
-
