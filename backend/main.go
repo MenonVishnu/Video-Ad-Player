@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-
+	//Handle env variables
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Could not find .env file")
@@ -20,8 +20,10 @@ func main() {
 		port = "8080"
 	}
 
+	//Handle Routes
 	http.HandleFunc("/api/v1/ads", controllers.GetAds)
 	http.HandleFunc("/api/v1/ads/click", controllers.LogClick)
 
+	//Start Backend Server
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
