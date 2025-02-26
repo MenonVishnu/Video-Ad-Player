@@ -22,8 +22,8 @@ function VideoPlayer(props) {
 	}, []);
 
 	const handleAdvClick = async () => {
-		if (videoRef.current) {
-			try {
+		try {
+			if (videoRef.current) {
 				const timestamp = videoRef.current.currentTime;
 
 				//sending click data
@@ -37,9 +37,9 @@ function VideoPlayer(props) {
 						video_timestamp: timestamp,
 					}),
 				});
-			} catch (error) {
-				console.log("Error sending click data: ", error);
 			}
+		} catch (error) {
+			console.log("Error sending click data: ", error);
 		}
 	};
 

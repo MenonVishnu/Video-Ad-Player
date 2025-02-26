@@ -24,7 +24,7 @@ function App() {
 	return (
 		<div className="App">
 			<Header />
-			{/* conditional rendering, only shows video if advData is loaded */}
+			{/* conditional rendering, only shows video if advertisement is loaded is loaded */}
 			{data == null ? <h2>Loading...</h2> : <VideoPlayer advData={data} />}
 		</div>
 	);

@@ -12,26 +12,26 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+//global sql DB variable 
 var DB *sql.DB
 
-// connection to Database
+// On Startup
 func init() {
 	var err error
 
+	//Database connection
 	DB, err = sql.Open("sqlite3", filepath.Join("data", "video_ad_player.db"))
 	if err != nil {
 		log.Fatal("Error Connecting to Database: ", err)
 	}
 
-	//creating log Table
+	//creating clickdata Table
 	sqlStatement := `CREATE TABLE IF NOT EXISTS clickdata (clickid INTEGER PRIMARY KEY AUTOINCREMENT, adid INTEGER, timestamp TEXT, ip VARCHAR(20), videotimestamp DOUBLE);`
-
 	_, err = DB.Exec(sqlStatement)
-
 	if err != nil {
 		log.Fatal("Error Creating clickdata Table: ", err)
 	}
-	log.Println("clickdata Table Available")
+	log.Println("clickdata Table Available.")
 
 	//creating advertisement table
 	sqlStatement = `CREATE TABLE IF NOT EXISTS advertisement (adid INTEGER PRIMARY KEY, imageurl TEXT, targeturl TEXT);`
@@ -39,13 +39,14 @@ func init() {
 	if err != nil {
 		log.Fatal("Error Creating advertisement Table: ", err)
 	}
-	log.Println("advertisement Table Available!!")
+	log.Println("advertisement Table Available.")
 
 	//to check if there is any data in advertisement table
-	var tempData helpers.AdvData
+	var tempAdv helpers.AdvData
 	sqlStatement = `SELECT adid FROM advertisement;`
-	err = DB.QueryRow(sqlStatement).Scan(&tempData)
-	if err == sql.ErrNoRows {
+	err = DB.QueryRow(sqlStatement).Scan(&tempAdv)
+	//if no rows present in result
+	if err == sql.ErrNoRows { 
 		InsertDummyData("dummydata.json")
 	} else {
 		log.Println("Dummy Data Already Present")
@@ -53,9 +54,9 @@ func init() {
 
 }
 
-// inserting dummy data into the table using json file
+// Inserting dummy data into the table using json file
 func InsertDummyData(filename string) {
-
+	//Get current working directory
 	cwd, _ := os.Getwd()
 	file, err := os.Open(filepath.Join(cwd, "data", filename))
 	if err != nil {
@@ -64,7 +65,7 @@ func InsertDummyData(filename string) {
 	}
 	defer file.Close()
 
-	// Read file content
+	// Reading file content
 	bytes, err := io.ReadAll(file)
 	if err != nil {
 		log.Println("Error Reading JSON file: ", err)
@@ -79,12 +80,13 @@ func InsertDummyData(filename string) {
 		return
 	}
 
-	// Check if there's data to insert
+	// Handles no data in dummydata
 	if len(dummyData) == 0 {
 		log.Println("No data found in JSON file.")
 		return
 	}
 
+	//Inserts dummy data in advertisement
 	query := `INSERT INTO advertisement (adid, imageurl, targeturl) VALUES `
 	values := []interface{}{}
 

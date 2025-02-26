@@ -32,7 +32,7 @@ func GetIP(r *http.Request) string {
 	// Check X-Forwarded-For first
 	forwarded := r.Header.Get("X-Forwarded-For")
 	if forwarded != "" {
-		// X-Forwarded-For may contain multiple IPs, take the first one
+		// X-Forwarded-For contain multiple IPs, take the first one
 		ips := strings.Split(forwarded, ",")
 		return strings.TrimSpace(ips[0])
 	}
